@@ -1,51 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Jhon</title>
-  
-  <link href="/atom.xml" rel="self"/>
-  
-  <link href="https://zzycjcg.github.io/"/>
-  <updated>2016-10-05T05:09:57.420Z</updated>
-  <id>https://zzycjcg.github.io/</id>
-  
-  <author>
-    <name>John Zhu</name>
-    
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>root无法使用ssh或sftp的问题</title>
-    <link href="https://zzycjcg.github.io/2016/10/05/root%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8ssh%E6%88%96sftp%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://zzycjcg.github.io/2016/10/05/root无法使用ssh或sftp的问题/</id>
-    <published>2016-10-05T03:25:44.000Z</published>
-    <updated>2016-10-05T05:09:57.420Z</updated>
-    
-    <content type="html"><![CDATA[<p>默认情况下，安装好ssh后，是不能用root登陆使用的，google了一把，原来是被Ubuntu禁用了。<br><br>直接上配置：</p>
-<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#修改/etc/ssh/sshd_config</div><div class="line">vi /etc/ssh/sshd_config</div><div class="line"># allow root ssh login: 1.comment &apos;without-password&apos;; 2.add yes</div><div class="line">#PermitRootLogin without-password</div><div class="line">PermitRootLogin yes</div><div class="line">#重启ssh服务</div><div class="line">service ssh restart</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;默认情况下，安装好ssh后，是不能用root登陆使用的，google了一把，原来是被Ubuntu禁用了。&lt;br&gt;&lt;br&gt;直接上配置：&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="sshd" scheme="https://zzycjcg.github.io/tags/sshd/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Redis单机多实例配置</title>
-    <link href="https://zzycjcg.github.io/2016/09/29/Redis%E5%8D%95%E6%9C%BA%E5%A4%9A%E5%AE%9E%E4%BE%8B%E9%85%8D%E7%BD%AE/"/>
-    <id>https://zzycjcg.github.io/2016/09/29/Redis单机多实例配置/</id>
-    <published>2016-09-29T14:52:50.000Z</published>
-    <updated>2016-10-05T05:24:17.520Z</updated>
-    
-    <content type="html"><![CDATA[<p>apt-get install redis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。<br>所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="John Zhu"><meta name="description" content="apt-getinstallredis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。"><meta name="keywords" content="redis,sentinel"><title>Redis单机多实例配置 · Jhon</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="https://zzycjcg.github.io/2016/09/29/Redis单机多实例配置/"><link rel="alternate" href="/atom.xml" title="Jhon"><link rel="stylesheet" href="/fonts/iconfont/iconfont.css"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?Your baidu Analytics ID";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Jhon</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Redis单机多实例配置</h1><span class="post-time">Sep 29, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#拷贝文件配置并修改"><span class="toc-text">拷贝文件配置并修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完成conf关联的修改"><span class="toc-text">完成conf关联的修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis自启动脚本修改"><span class="toc-text">redis自启动脚本修改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#修改6379实例配置"><span class="toc-text">修改6379实例配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加6380实例配置"><span class="toc-text">增加6380实例配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新自启动"><span class="toc-text">更新自启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#验证"><span class="toc-text">验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></div><div class="post-content"><p>apt-get install redis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。<br>所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。</p>
 <a id="more"></a>
 <h2 id="拷贝文件配置并修改"><a href="#拷贝文件配置并修改" class="headerlink" title="拷贝文件配置并修改"></a>拷贝文件配置并修改</h2><p>安装好redis之后，默认会在/etc/redis下存放2个配置文件：redis-server.conf、sentinel.conf，分别是redis服务端配置和redis哨兵配置。<br>使用已经存在的6379端口示例配置，拷贝一份新的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">user@ubuntu:/etc/redis$ sudo cp redis.conf 6380.conf</div><div class="line">vi 6380.conf</div><div class="line">#修改pidfile</div><div class="line">pidfile /var/run/redis/redis-6380.pid</div><div class="line">#修改port</div><div class="line">port 6380</div><div class="line">#修改bind (O)</div><div class="line">bind 0.0.0.0</div><div class="line">#修改logfile</div><div class="line">logfile /var/log/redis/redis-6380.log</div><div class="line">#修改dump file name</div><div class="line">dbfilename dump-6380.rdb</div></pre></td></tr></table></figure></p>
 <p>最后，将默认的redis-server.conf也修改为redis-6379.conf，使命名风格统一。在后面会看到，配置文件命名风格统一后可以很方便统一配置自启动脚本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mv redis-server.conf redis-6379.conf</div></pre></td></tr></table></figure></p>
@@ -76,19 +42,16 @@
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://support.pivotal.io/hc/en-us/articles/206087627-How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host" target="_blank" rel="external">How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host</a></li>
 </ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;apt-get install redis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。&lt;br&gt;所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="redis" scheme="https://zzycjcg.github.io/tags/redis/"/>
-    
-      <category term="sentinel" scheme="https://zzycjcg.github.io/tags/sentinel/"/>
-    
-  </entry>
-  
-</feed>
+</div></article><div class="tags"><a href="/tags/redis/">redis</a><a href="/tags/sentinel/">sentinel</a></div><div class="paginator"><a href="/2016/10/05/root无法使用ssh或sftp的问题/" class="prev"><i class="iconfont icon-left"></i><span> Prev</span></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'https://zzycjcg.github.io/2016/09/29/Redis单机多实例配置/';
+    this.page.identifier = '2016/09/29/Redis单机多实例配置/';
+    this.page.title = 'Redis单机多实例配置';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">John Zhu</span></p></div><label id="back2top"><i class="iconfont icon-up"></i></label></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
