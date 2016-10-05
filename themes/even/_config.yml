@@ -22,15 +22,15 @@ sidebar: true
 
 # Analytics
 ## Baidu Analytics
-baidu_analytics: Your baidu Analytics ID
+## baidu_analytics: Your baidu Analytics ID
 ## Google Analytics
 google_analytics: 83591895
 
 # Comments
 ## Duoshuo
-duoshuo_shortname: Your duoshuo ID
+## duoshuo_shortname: Your duoshuo ID
 ## Disqus
-disqus_shortname: Your disqus ID
+disqus_shortname: zzycjcg-github-io
 
 # Social links
 social:
