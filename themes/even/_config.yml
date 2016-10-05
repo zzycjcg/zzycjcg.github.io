@@ -1,0 +1,44 @@
+# navbar
+menu:
+  Home: /
+  Archives: /archives/
+  Tags: /tags/
+  About: /about/
+
+# site icon
+favicon: /favicon.ico
+
+# theme color
+# Default | Mint Green | Cobalt Blue | Hot Pink | Dark Violet
+theme_color: Default
+
+# comments
+comments:
+  post: true
+  about: true
+
+# article directory sidebar
+sidebar: true
+
+# Analytics
+## Baidu Analytics
+baidu_analytics: Your baidu Analytics ID
+## Google Analytics
+google_analytics: 83591895
+
+# Comments
+## Duoshuo
+duoshuo_shortname: Your duoshuo ID
+## Disqus
+disqus_shortname: Your disqus ID
+
+# Social links
+social:
+  email: zzycjcg@qq.com
+  # stack-overflow:
+  # twitter:
+  # facebook:
+  github: https://github.com/zzycjcg
+  weibo: http://weibo.com/412519432
+  # zhihu: 
+  rss: /atom.xml
