@@ -27,3 +27,7 @@ env:
  global:
    - GH_REF: github.com/zzycjcg/zzycjcg.github.io.git
    
+notifications:
+  email:
+    on_success: change
+    on_failure: always
