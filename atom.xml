@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Jhon</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://zzycjcg.github.io/"/>
+  <updated>2016-10-28T04:31:22.886Z</updated>
+  <id>https://zzycjcg.github.io/</id>
+  
+  <author>
+    <name>John Zhu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>root无法使用ssh或sftp的问题</title>
+    <link href="https://zzycjcg.github.io/2016/10/05/root%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8ssh%E6%88%96sftp%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://zzycjcg.github.io/2016/10/05/root无法使用ssh或sftp的问题/</id>
+    <published>2016-10-05T11:25:44.000Z</published>
+    <updated>2016-10-28T04:31:22.886Z</updated>
+    
+    <content type="html"><![CDATA[<p>默认情况下，安装好ssh后，是不能用root登陆使用的，google了一把，原来是被Ubuntu禁用了。<br><br>直接上配置：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#修改/etc/ssh/sshd_config</div><div class="line">vi /etc/ssh/sshd_config</div><div class="line"># allow root ssh login: 1.comment &apos;without-password&apos;; 2.add yes</div><div class="line">#PermitRootLogin without-password</div><div class="line">PermitRootLogin yes</div><div class="line">#重启ssh服务</div><div class="line">service ssh restart</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;默认情况下，安装好ssh后，是不能用root登陆使用的，google了一把，原来是被Ubuntu禁用了。&lt;br&gt;&lt;br&gt;直接上配置：&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="sshd" scheme="https://zzycjcg.github.io/tags/sshd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis单机多实例配置</title>
+    <link href="https://zzycjcg.github.io/2016/09/29/Redis%E5%8D%95%E6%9C%BA%E5%A4%9A%E5%AE%9E%E4%BE%8B%E9%85%8D%E7%BD%AE/"/>
+    <id>https://zzycjcg.github.io/2016/09/29/Redis单机多实例配置/</id>
+    <published>2016-09-29T22:52:50.000Z</published>
+    <updated>2016-10-28T04:31:22.886Z</updated>
+    
+    <content type="html"><![CDATA[<p>apt-get install redis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。<br>所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。</p>
+<a id="more"></a>
+<h2 id="拷贝文件配置并修改"><a href="#拷贝文件配置并修改" class="headerlink" title="拷贝文件配置并修改"></a>拷贝文件配置并修改</h2><p>安装好redis之后，默认会在/etc/redis下存放2个配置文件：redis-server.conf、sentinel.conf，分别是redis服务端配置和redis哨兵配置。<br>使用已经存在的6379端口示例配置，拷贝一份新的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">user@ubuntu:/etc/redis$ sudo cp redis.conf 6380.conf</div><div class="line">vi 6380.conf</div><div class="line">#修改pidfile</div><div class="line">pidfile /var/run/redis/redis-6380.pid</div><div class="line">#修改port</div><div class="line">port 6380</div><div class="line">#修改bind (O)</div><div class="line">bind 0.0.0.0</div><div class="line">#修改logfile</div><div class="line">logfile /var/log/redis/redis-6380.log</div><div class="line">#修改dump file name</div><div class="line">dbfilename dump-6380.rdb</div></pre></td></tr></table></figure></p>
+<p>最后，将默认的redis-server.conf也修改为redis-6379.conf，使命名风格统一。在后面会看到，配置文件命名风格统一后可以很方便统一配置自启动脚本。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mv redis-server.conf redis-6379.conf</div></pre></td></tr></table></figure></p>
+<p>同时也修改pidfile，logfile，dumpname</p>
+<h2 id="完成conf关联的修改"><a href="#完成conf关联的修改" class="headerlink" title="完成conf关联的修改"></a>完成conf关联的修改</h2><p>这一步是可选的，因为如果不配置，redis在启动时会帮我们自动创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#pidfile</div><div class="line">cd /var/run/redis/</div><div class="line">touch redis-6380.pid</div><div class="line">#log file</div><div class="line">cd /var/log/redis/</div><div class="line">sudo touch redis-6380.log</div></pre></td></tr></table></figure></p>
+<h2 id="redis自启动脚本修改"><a href="#redis自启动脚本修改" class="headerlink" title="redis自启动脚本修改"></a>redis自启动脚本修改</h2><h3 id="修改6379实例配置"><a href="#修改6379实例配置" class="headerlink" title="修改6379实例配置"></a>修改6379实例配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#进入自动启动脚本目录</div><div class="line">cd /etc/init.d</div><div class="line">#找到redis启动脚本</div><div class="line">ll | grep redis</div></pre></td></tr></table></figure>
+<p>默认为看到一个redis-server的脚本，修改redis-server名称，即redis-6379<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mv redis-server redis-6379</div><div class="line">vi redis-6379</div></pre></td></tr></table></figure></p>
+<p>将脚本前面的变量定义修改为如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">#定义redis实例名称</div><div class="line">REDIS_INSTANCE=&quot;redis-6379&quot;</div><div class="line">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</div><div class="line">DAEMON=/usr/bin/redis-server</div><div class="line">#引用redis实例变量</div><div class="line">DAEMON_ARGS=/etc/redis/$&#123;REDIS_INSTANCE&#125;.conf</div><div class="line">NAME=$&#123;REDIS_INSTANCE&#125;</div><div class="line">DESC=$&#123;REDIS_INSTANCE&#125;</div><div class="line"></div><div class="line">RUNDIR=/var/run/redis</div><div class="line">PIDFILE=$RUNDIR/$&#123;REDIS_INSTANCE&#125;.pid</div></pre></td></tr></table></figure></p>
+<h3 id="增加6380实例配置"><a href="#增加6380实例配置" class="headerlink" title="增加6380实例配置"></a>增加6380实例配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">#拷贝一份6379脚本</div><div class="line">cp redis-6379 redis-6380</div><div class="line">#修改实例名称</div><div class="line">REDIS_INSTANCE=&quot;redis-6380&quot;</div></pre></td></tr></table></figure>
+<h3 id="更新自启动"><a href="#更新自启动" class="headerlink" title="更新自启动"></a>更新自启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#先删掉旧的redis-server启动</div><div class="line">update-rc.d –f redis-server remove</div><div class="line">#添加6379自启动</div><div class="line">update-rc.d redis-6379 defaults</div><div class="line">#添加6380自启动</div><div class="line">update-rc.d redis-6380 defaults</div></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#分别启动6379和6380实例</div><div class="line">service redis-6379 start</div><div class="line">service redis-6380 start</div><div class="line">#查询启动的redis进程</div><div class="line">ps -ef | grep redis-server | grep -v grep</div></pre></td></tr></table></figure>
+<p><img src="/images/redis-pid-1.png" alt="Redis进程"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#查看redis信息</div><div class="line">redis-cli –h 192.168.1.111 –p 6379</div><div class="line">192.168.1.111:6379&gt;info replication</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#reboot验证看Ubuntu启动时，2个redis实例是否自动启动</div></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>总体来说，配置还是很简单的，但才开始玩redis，很是不熟，google了不少blog学习，redis实例本身配置这块是很简单的。主要的问题在启动脚本：</p>
+<ul>
+<li><p>问题1：自启动脚本启动后无法启动。<br>开始参照一篇blog[1]，给、/etc/init.d/redis-6379建软链接，去掉第一行的变量定义，改为通过获取启动命令获取实例名称。这样通过service启动成功，但是重启后怎么也启动不了，一开始怀疑是添加自启动未生效，还弄了好半天，结果无解；最后修改变量获取方法，定义实例常量值，结果成功了。由此得出结论，Ubuntu启动时，调用启动命令方式不是service xxx start<br>  #通过service启动，用basename可以把redis-6379读取作为实例名称<br>  service redis-6379 start</p>
+</li>
+<li><p>问题2：service redis-6379 status无效<br>需要跟踪status问题原因并解决。<br>  #service redis-6379 status查看状态永远是not running<br>  service redis-6379 status<br>  <img src="/images/redis-status-1.png" alt="Redis状态"></p>
+</li>
+<li><p>遗留问题：</p>
+<ol>
+<li>Ubuntu系统启动时，是如何来调用启动脚本来启动需要自启动的应用的？</li>
+<li>是否可以优化脚本，在一个启动脚本里面循环拉起多个redis启动？</li>
+<li>service redis-6379 status命名问题出在哪？如何修改？</li>
+</ol>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://support.pivotal.io/hc/en-us/articles/206087627-How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host" target="_blank" rel="external">How-to-setup-and-run-mulitple-Redis-server-instances-on-a-Linux-host</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;apt-get install redis-server安装redis后，默认是单点redis，为了研究redis集群，决定在单机上配置多个redis实例。&lt;br&gt;所谓redis实例，就是指多个redis进程，它们分别监听多个端口，单独都可以提供服务。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="redis" scheme="https://zzycjcg.github.io/tags/redis/"/>
+    
+      <category term="sentinel" scheme="https://zzycjcg.github.io/tags/sentinel/"/>
+    
+  </entry>
+  
+</feed>
