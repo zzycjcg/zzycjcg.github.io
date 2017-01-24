@@ -48,3 +48,6 @@ Welcome to GitLab, xxx!
 git config --local user.name 'xxx'
 git config --local user.email 'xxx@compary.com'
 ```
+
+参考:
+https://segmentfault.com/q/1010000000835302
