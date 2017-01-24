@@ -1,7 +1,9 @@
 ---
 title: git生成sshkey
 date: 2017-01-25 03:44:08
-tags: git sshkey
+tags: 
+        - git 
+        - sshkey
 ---
 
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
