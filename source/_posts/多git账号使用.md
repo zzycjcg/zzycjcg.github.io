@@ -6,7 +6,7 @@ tags:
         - mutli user
         - git config
 ---
-相信不少同学公司在使用gitlab及其衍生产品，而另外自己也注册了Github账号，在这种情况下，
+相信不少同学公司在同时使用gitlab和gitlab登，在这种情况下，
 在一台机器环境下，如何做到能同时使用2种git?
 
 <!-- more -->
