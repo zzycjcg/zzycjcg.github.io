@@ -1,5 +1,5 @@
 ---
-title: mybatis技巧之foreach递归
+title: mybatis技巧之foreach嵌套
 date: 2017-08-21 17:45:06
 tags:
         - mybatis
@@ -9,7 +9,7 @@ tags:
         - union
 ---
 
-mybatis的foreach已经用得很熟了，可如果foreach存在递归时，该怎么用？
+mybatis的foreach已经用得很熟了，可如果foreach存在嵌套时，该怎么用？
 
 <!-- more -->
 
